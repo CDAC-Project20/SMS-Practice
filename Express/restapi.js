@@ -82,24 +82,24 @@ app.post('/logincheck',function(req,res){
 })
 
 
-//////rigistration functionality
-// app.post("/register", function (req, res) {
-//     let { u_id, password, fname, mname, lname, email, contact } = req.body;
-//     let query = "INSERT INTO users (u_id, password, fname, mname, lname, email, contact) VALUES (?, ?, ?, ?, ?, ?, ?)";
+////rigistration functionality
+app.post("/register", function (req, res) {
+    let { u_id, password, fname, mname, lname, email, contact } = req.body;
+    let query = "INSERT INTO users (u_id, password, fname, mname, lname, email, contact) VALUES (?, ?, ?, ?, ?, ?, ?)";
         
-//     con.query(query, [u_id, password, fname, mname, lname, email, contact], function (err, result) {
-//         if (!err) {
-//             res.write(result)
-//             res.send(true);
-//             res.end()
+    con.query(query, [u_id, password, fname, mname, lname, email, contact], function (err, result) {
+        if (!err) {
+            res.write(result)
+            res.send(true);
+            res.end()
             
-//         } else {
-//             console.error("Registration database error: ", err);
-//             res.send(false);
+        } else {
+            console.error("Registration database error: ", err);
+            res.send(false);
 
-//         }
-//     });
-// });
+        }
+    });
+});
 
 
 
