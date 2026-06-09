@@ -16,6 +16,8 @@ app.listen(9090,function(){
     console.log("server started")
 })
 
+
+
 app.get('/login',function(req,res){
     res.sendFile(__dirname+"/loginform.html");
 })
@@ -36,6 +38,7 @@ con.connect(function (err) {
 })
 
 
+// get all users from database and send to client in json format
 app.get('/users',function(req,res){
     let querry='select * from users'
     con.query(querry,function(err,result){
@@ -64,7 +67,8 @@ app.get('/users/:id',function(req,res){
 })
 
 
-
+// login functionality for checking username and password and if credentials are correct then 
+// we are sending user details and token to client otherwise we are sending invalid credentials message to client
 app.post('/logincheck',function(req,res){
    const querry="select * from users where username=? and password=?";
    con.query(querry,[req.body.username,req.body.password],function(err,result){
@@ -78,24 +82,28 @@ app.post('/logincheck',function(req,res){
 })
 
 
-//////Register
-// app.post("/register", function (req, res) {
-//     let { u_id, password, fname, mname, lname, email, contact } = req.body;
-//     let query = "INSERT INTO users (u_id, password, fname, mname, lname, email, contact) VALUES (?, ?, ?, ?, ?, ?, ?)";
+////rigistration functionality
+app.post("/register", function (req, res) {
+    let { u_id, password, fname, mname, lname, email, contact } = req.body;
+    let query = "INSERT INTO users (u_id, password, fname, mname, lname, email, contact) VALUES (?, ?, ?, ?, ?, ?, ?)";
         
-//     con.query(query, [u_id, password, fname, mname, lname, email, contact], function (err, result) {
-//         if (!err) {
-//             res.write(result)
-//             res.send(true);
-//             res.end()
+    con.query(query, [u_id, password, fname, mname, lname, email, contact], function (err, result) {
+        if (!err) {
+            res.write(result)
+            res.send(true);
+            res.end()
             
-//         } else {
-//             console.error("Registration database error: ", err);
-//             res.send(false);
+        } else {
+            console.error("Registration database error: ", err);
+            res.send(false);
 
-//         }
-//     });
-// });
+        }
+    });
+});
+
+
+
+// password reset functionality 
 
 // app.post('/reset',function(req,res){
 //     let {username,oldpassword,newpassword}=req.body;
@@ -115,6 +123,9 @@ app.post('/logincheck',function(req,res){
 //     })
 // })
 
+
+
+
 // // Assignment 2 log file maintain karta
 
 // app.use(function (req, res, next) {
@@ -124,22 +135,26 @@ app.post('/logincheck',function(req,res){
 
 
 
-// // app.use(function(req,res,next){
-// //     let ip=req.ip;
-// //     let url=req.originalUrl;
-// //     let method=req.method;
-// //     let currentTime=new Date();
-// //     let querry= "insert into request_logs(clientip,request_url,request_method,request_time) values(?,?,?,?)";
-// //     con.query(querry,[ip,url,method,currentTime],function(err,result){
-// //         if(!err){
-// //             console.log("data added");
-// //         }
-// //         else{
-// //             console.log(err.toString());
-// //         }
-// //     })
-// //     next();
 
-// // })
+// for maintaining log file we can use below code in which we are storing client ip,request url,
+// request method and request time in database table named request_logs
+ 
+// app.use(function(req,res,next){
+//     let ip=req.ip;
+//     let url=req.originalUrl;
+//     let method=req.method;
+//     let currentTime=new Date();
+//     let querry= "insert into request_logs(clientip,request_url,request_method,request_time) values(?,?,?,?)";
+//     con.query(querry,[ip,url,method,currentTime],function(err,result){
+//         if(!err){
+//             console.log("data added");
+//         }
+//         else{
+//             console.log(err.toString());
+//         }
+//     })
+//     next();
+
+// })
 
 
